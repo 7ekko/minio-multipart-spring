@@ -1,0 +1,39 @@
+server:
+  port: 8000
+
+minio:
+  url: xx
+  accessKey: Dxx
+  secretKey: xx
+  bucketName: xx
+  partSize: 10485760
+
+spring:
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  redis:
+    # ��ַ
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 10s
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1ms
+  datasource:
+    url: jdbc:mysql://xx:3306/xx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: x
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  typeAliasesPackage: top.mind.minio.**.domain
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+
+
