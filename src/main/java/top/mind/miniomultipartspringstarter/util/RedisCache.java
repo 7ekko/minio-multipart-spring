@@ -12,8 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * spring redis 工具类
- *
- * @author seaway
  **/
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 @Component

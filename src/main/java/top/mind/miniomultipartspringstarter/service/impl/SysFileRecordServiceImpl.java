@@ -12,9 +12,6 @@ import java.util.List;
 
 /**
  * 文件上传记录Service业务层处理
- *
- * @author ruoyi
- * @date 2022-11-15
  */
 @Service
 public class SysFileRecordServiceImpl implements ISysFileRecordService {

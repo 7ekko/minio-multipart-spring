@@ -6,8 +6,6 @@ import javax.servlet.ServletOutputStream;
 
 /**
  * 文件上传接口
- *
- * @author konglingdi
  */
 public interface ISysFileService {
     /**

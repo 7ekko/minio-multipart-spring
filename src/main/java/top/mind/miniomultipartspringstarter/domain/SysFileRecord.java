@@ -8,8 +8,6 @@ import java.util.Date;
 
 /**
  * 文件上传记录对象 sys_file_record
- *
- * @date 2022-11-15
  */
 public class SysFileRecord {
     private static final long serialVersionUID = 1L;

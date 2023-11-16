@@ -1,8 +1,6 @@
 package top.mind.miniomultipartspringstarter.config;
 
 /**
- * @version 3.3.0
- * @date 2021/5/25 10:45
  */
 public class RestResponse<T> {
     private int code;

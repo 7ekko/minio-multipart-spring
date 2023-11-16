@@ -9,8 +9,6 @@ import java.util.Objects;
 
 /**
  * 文件上传工具类
- *
- * @author
  */
 public class FileUploadUtils {
 
@@ -22,7 +20,7 @@ public class FileUploadUtils {
         String fileSuffix = FilenameUtils.getExtension(originFileName);
 
         String type = FileTypeEnum.getBySuffix(fileSuffix).getCode();
-        return StringUtils.format("/{}/{}_{}.{}", type, FilenameUtils.getBaseName(IdUtil.fastUUID()),
+        return StringUtils.format("{}/{}_{}.{}", type, FilenameUtils.getBaseName(IdUtil.fastUUID()),
                 Seq.getId(Seq.uploadSeqType), fileSuffix);
     }
     /**
@@ -35,7 +33,7 @@ public class FileUploadUtils {
     }
     public static final String extractFilename(String originFileName, String fileSuffix) {
         String type = FileTypeEnum.getBySuffix(fileSuffix).getCode();
-        return StringUtils.format("/{}/{}_{}.{}", type, FilenameUtils.getBaseName(IdUtil.fastUUID()),
+        return StringUtils.format("{}/{}_{}.{}", type, FilenameUtils.getBaseName(IdUtil.fastUUID()),
                 Seq.getId(Seq.uploadSeqType), FilenameUtils.getExtension(originFileName));
     }
 

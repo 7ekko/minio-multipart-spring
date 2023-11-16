@@ -2,8 +2,6 @@ package top.mind.miniomultipartspringstarter.util;
 
 /**
  * 缓存的key 常量
- *
- * @author
  */
 public class CacheConstants {
 

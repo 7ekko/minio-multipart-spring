@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.mind.miniomultipartspringstarter.mapper.SysFileRecordMapper">
     
-    <resultMap type="SysFileRecord" id="SysFileRecordResult">
+    <resultMap type="top.mind.miniomultipartspringstarter.domain.SysFileRecord" id="SysFileRecordResult">
         <result property="id"    column="id"    />
         <result property="fileUrls"    column="file_urls"    />
         <result property="fileName"    column="file_name"    />
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, file_urls, file_name, md5, upload_id, is_uploaded, total_chunks, size, completed_parts, create_by, create_time, update_by, update_time, remark, file_url, bucket, chunk_result, version from sys_file_record
     </sql>
 
-    <select id="selectSysFileRecordList" parameterType="SysFileRecord" resultMap="SysFileRecordResult">
+    <select id="selectSysFileRecordList" parameterType="top.mind.miniomultipartspringstarter.domain.SysFileRecord" resultMap="SysFileRecordResult">
         <include refid="selectSysFileRecordVo"/>
         <where>  
             <if test="fileUrls != null  and fileUrls != ''"> and file_urls = #{fileUrls}</if>
@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertSysFileRecord" parameterType="SysFileRecord">
+    <insert id="insertSysFileRecord" parameterType="top.mind.miniomultipartspringstarter.domain.SysFileRecord">
         insert into sys_file_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
@@ -96,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateSysFileRecord" parameterType="SysFileRecord">
+    <update id="updateSysFileRecord" parameterType="top.mind.miniomultipartspringstarter.domain.SysFileRecord">
         update sys_file_record
         <trim prefix="SET" suffixOverrides=",">
             <if test="fileUrls != null">file_urls = #{fileUrls},</if>

@@ -8,9 +8,6 @@ import java.util.List;
 
 /**
  * 文件上传记录Mapper接口
- *
- * @author
- * @date 2022-11-15
  */
 @Mapper
 public interface SysFileRecordMapper {

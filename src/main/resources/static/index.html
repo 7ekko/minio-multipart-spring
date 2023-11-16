@@ -1,0 +1,143 @@
+<!-- FILEPATH: /Users/liujianhui/web/file-uploader/test/test.html -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>分片上传</title>
+    <!-- re 正则 -->
+    <script src="https://cdn.bootcss.com/spark-md5/3.0.0/spark-md5.min.js"></script>
+</head>
+
+<body>
+    <input type="file" id="file-input">
+    <button id="upload-btn">上传</button>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const uploadBtn = document.getElementById('upload-btn');
+
+        uploadBtn.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            const chunkSize = 1024 * 1024 * 5; // 1MB
+            const chunks = Math.ceil(file.size / chunkSize);
+            const md5 = await calculateMD5(file);
+
+            // Step 1: 获取上传ID和上传URL列表
+            const initResponse = await fetch('http://localhost:8000/api/file/multipart/init', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    md5: md5,
+                    filename: file.name,
+                    size: file.size
+                })
+            }).then(res => res.json());
+
+            const uploadId = initResponse.response.uploadId;
+            const uploadUrlList = initResponse.response.uploadUrlList;
+
+            console.log(initResponse);
+
+            // Step 2: 上传每个块
+            const promises = [];
+            uploadUrlList.forEach(element => {
+                let url = "http://localhost:8000" + element;
+                // api/file/multipart/chunkUpload?uploadId=ZThkOTQ0Y2MtMGU1YS00N2Q5LTlkNzgtZTYzOTE2N2Y3ODcwLmQ3ODk2MzEzLWEzZmUtNGU2Ny1iMDllLTZjNTI1ZDJlZTViOA&chunk=chunk_0
+                // 使用正则表达式提取数字部分
+                var match = url.match(/chunk_\d+/);
+                if (match) {
+                    var numericPart = match[0].split('_')[1];
+                    console.log("开始获取分片 ", numericPart);
+
+                    // 文件分段
+                    const start = numericPart * chunkSize;
+                    const end = Math.min(start + chunkSize, file.size);
+                    const chunk = file.slice(start, end);
+
+                    // 上传分段
+                    promises.push(uploadChunk(url, chunk, uploadId, numericPart));
+
+
+                } else {
+                    console.log("No numeric part found");
+                }
+
+            });
+
+            await Promise.all(promises);
+
+            // 如果有上传失败，则取消合并
+            if (promises.some(p => !p)) {
+                return;
+            } else {
+                console.log("所有分片上传成功");
+                // Step 3: 合并块
+                const completeResponse = await fetch('http://localhost:8000/api/file/multipart/complete', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        uploadId: uploadId
+                    })
+                }).then(res => res.json());
+
+                console.log(completeResponse);
+            }
+
+        });
+
+        function uploadChunk(url, chunk, uploadId, index) {
+            const formData = new FormData();
+            formData.append('file', chunk);
+
+            // 使用URLSearchParams或将参数附加到URL中
+            const params = new URLSearchParams();
+            params.append('uploadId', uploadId);
+            params.append('chunk', index);
+
+            return fetch(url, {
+                method: 'POST',
+                body: formData,
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.code === 1) {
+                        console.log(`Chunk ${index} uploaded successfully`);
+                        return true;
+                    } else {
+                        console.log(`Chunk ${index} upload failed`);
+                        return false;
+                    }
+                })
+                .catch(error => {
+                    console.error(`Error uploading chunk ${index}:`, error);
+                    return false;
+                });
+        }
+
+
+
+        function calculateMD5(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                const spark = new SparkMD5.ArrayBuffer();
+
+                reader.onload = () => {
+                    spark.append(reader.result);
+                    resolve(spark.end());
+                };
+
+                reader.onerror = reject;
+
+                reader.readAsArrayBuffer(file);
+            });
+        }
+    </script>
+</body>
+
+</html>

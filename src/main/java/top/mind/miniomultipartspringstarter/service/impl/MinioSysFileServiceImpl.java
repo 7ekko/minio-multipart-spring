@@ -17,11 +17,8 @@ import java.io.InputStream;
 
 /**
  * Minio 文件存储
- *
- * @author konglingdi
  */
 @Slf4j
-// @Primary
 @Service
 public class MinioSysFileServiceImpl implements ISysFileService {
     @Autowired
