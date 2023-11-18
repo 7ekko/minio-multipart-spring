@@ -29,13 +29,13 @@
 "msg": "操作成功",
 "code": 1,
 "data": {
-"uploadId": "936f4244-84d3-4d6c-8cff-cce0907bd823",
+"uploadId": "ZThkOTQ0Y2MtMGU1YS00N2Q5LTlkNzgtZTYzOTE2N2Y3ODcwLmNhOWNlN2ZjLWVmNjUtNGZiNi1hMTFmLThmNGUwNjk3M2Q0MA",
 "uploadUrlList": [
-"/api/file/multipart/chunkUpload?uploadId=936f4244-84d3-4d6c-8cff-cce0907bd823&chunk=chunk_0",
-"/api/file/multipart/chunkUpload?uploadId=936f4244-84d3-4d6c-8cff-cce0907bd823&chunk=chunk_1",
-"/api/file/multipart/chunkUpload?uploadId=936f4244-84d3-4d6c-8cff-cce0907bd823&chunk=chunk_2",
-"/api/file/multipart/chunkUpload?uploadId=936f4244-84d3-4d6c-8cff-cce0907bd823&chunk=chunk_3",
-"/api/file/multipart/chunkUpload?uploadId=936f4244-84d3-4d6c-8cff-cce0907bd823&chunk=chunk_4"
+"/api/file/multipart/chunkUpload?uploadId=ZThkOTQ0Y2MtMGU1YS00N2Q5LTlkNzgtZTYzOTE2N2Y3ODcwLmNhOWNlN2ZjLWVmNjUtNGZiNi1hMTFmLThmNGUwNjk3M2Q0MA&chunk=chunk_0",
+"/api/file/multipart/chunkUpload?uploadId=ZThkOTQ0Y2MtMGU1YS00N2Q5LTlkNzgtZTYzOTE2N2Y3ODcwLmNhOWNlN2ZjLWVmNjUtNGZiNi1hMTFmLThmNGUwNjk3M2Q0MA&chunk=chunk_1",
+"/api/file/multipart/chunkUpload?uploadId=ZThkOTQ0Y2MtMGU1YS00N2Q5LTlkNzgtZTYzOTE2N2Y3ODcwLmNhOWNlN2ZjLWVmNjUtNGZiNi1hMTFmLThmNGUwNjk3M2Q0MA&chunk=chunk_2",
+"/api/file/multipart/chunkUpload?uploadId=ZThkOTQ0Y2MtMGU1YS00N2Q5LTlkNzgtZTYzOTE2N2Y3ODcwLmNhOWNlN2ZjLWVmNjUtNGZiNi1hMTFmLThmNGUwNjk3M2Q0MA&chunk=chunk_3",
+"/api/file/multipart/chunkUpload?uploadId=ZThkOTQ0Y2MtMGU1YS00N2Q5LTlkNzgtZTYzOTE2N2Y3ODcwLmNhOWNlN2ZjLWVmNjUtNGZiNi1hMTFmLThmNGUwNjk3M2Q0MA&chunk=chunk_4"
 ],
 "partCount": 5,
 "url": null
@@ -47,11 +47,11 @@
 
 #### 2. 调用分片接口
    调用分片上传接口，将文件分片上传至服务器。
-   http://localhost:8080/api/file/multipart/chunkUpload?uploadId=936f4244-84d3-4d6c-8cff-cce0907bd823&chunk=chunk_0
-   http://localhost:8080/api/file/multipart/chunkUpload?uploadId=936f4244-84d3-4d6c-8cff-cce0907bd823&chunk=chunk_1
-   http://localhost:8080/api/file/multipart/chunkUpload?uploadId=936f4244-84d3-4d6c-8cff-cce0907bd823&chunk=chunk_2
-   http://localhost:8080/api/file/multipart/chunkUpload?uploadId=936f4244-84d3-4d6c-8cff-cce0907bd823&chunk=chunk_3
-   http://localhost:8080/api/file/multipart/chunkUpload?uploadId=936f4244-84d3-4d6c-8cff-cce0907bd823&chunk=chunk_4
+   http://localhost:8080/api/file/multipart/chunkUpload?uploadId=xxxxxx&chunk=chunk_0
+   http://localhost:8080/api/file/multipart/chunkUpload?uploadId=xxxxxx&chunk=chunk_1
+   http://localhost:8080/api/file/multipart/chunkUpload?uploadId=xxxxxx&chunk=chunk_2
+   http://localhost:8080/api/file/multipart/chunkUpload?uploadId=xxxxxx&chunk=chunk_3
+   http://localhost:8080/api/file/multipart/chunkUpload?uploadId=xxxxxx&chunk=chunk_4
 #### 3. 合并分片
 
 	合并上传完成的分片，生成最终文件。
@@ -59,13 +59,13 @@
 ```json
 请求体:
    {
-   "uploadId": "936f4244-84d3-4d6c-8cff-cce0907bd823"
+   "uploadId": "xxxxxx"
    }
 ```
  ``` json
   返回值:
  {
- "msg": "2023/02/10/91fc7d51-6caf-4d66-834e-165456f55975_20230210121947A001.mp4",
+ "msg": "/video/91fc7d51-6caf-4d66-834e-165456f55975_20230210121947A001.mp4",
  "code": 1
  }
  ```
