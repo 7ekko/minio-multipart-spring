@@ -72,7 +72,7 @@ public class MinioTemplate {
             Date now = new Date();
             Date createTime = fileRecord.getCreateTime();
             long hour = DateUtil.between(createTime, now, DateUnit.HOUR);
-            // TODO 20小时
+            //  20小时
             if (hour < 20) {
                 List<String> partList = new ArrayList<>();
                 for (int i = 1; i <= fileRecord.getTotalChunks(); i++) {
@@ -175,10 +175,9 @@ public class MinioTemplate {
             // chunk已经上传成功
             redisCache.setCacheObject(chunkKey, "1", expire.intValue(), TimeUnit.SECONDS);
         }
-
-        // TODO 不能这样做
-//        String result = redisCache.<String>getCacheObject(chunkKey);
-        // 更新chunk上传结果到记录表中
+        // 因并发问题不可直接更新chunk上传结果到记录表中 
+        // 可使用其他解决方法 比如 利用数据库乐观锁/消息队列/回调接口
+//        String result = redisCache.<String>getCacheObject(chunkKey);     
 //        updateChunkResult(uploadId, chunk, result);
         return msg;
     }
