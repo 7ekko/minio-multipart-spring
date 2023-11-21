@@ -1,14 +1,17 @@
 package top.mind.miniomultipartspringstarter.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.Data;
 
 import java.util.Date;
 
 /**
  * 文件上传记录对象 sys_file_record
  */
+@TableName("sys_file_record")
+@Data
 public class SysFileRecord {
     private static final long serialVersionUID = 1L;
 
@@ -99,81 +102,89 @@ public class SysFileRecord {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
+    @TableField(exist = false)
+    /**
+     * 文件类型
+     */
+    private String fileType;
     /**
      * 备注
      */
     private String remark;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Integer isRecycle;
+
 
     public Long getId() {
         return id;
     }
 
-    public void setFileUrls(String fileUrls) {
-        this.fileUrls = fileUrls;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFileUrls() {
         return fileUrls;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFileUrls(String fileUrls) {
+        this.fileUrls = fileUrls;
     }
 
     public String getFileName() {
         return fileName;
     }
 
-    public void setMd5(String md5) {
-        this.md5 = md5;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getMd5() {
         return md5;
     }
 
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+    public void setMd5(String md5) {
+        this.md5 = md5;
     }
 
     public String getUploadId() {
         return uploadId;
     }
 
-    public void setIsUploaded(Integer isUploaded) {
-        this.isUploaded = isUploaded;
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
     }
 
     public Integer getIsUploaded() {
         return isUploaded;
     }
 
-    public void setTotalChunks(Long totalChunks) {
-        this.totalChunks = totalChunks;
+    public void setIsUploaded(Integer isUploaded) {
+        this.isUploaded = isUploaded;
     }
 
     public Long getTotalChunks() {
         return totalChunks;
     }
 
-    public void setSize(Long size) {
-        this.size = size;
+    public void setTotalChunks(Long totalChunks) {
+        this.totalChunks = totalChunks;
     }
 
     public Long getSize() {
         return size;
     }
 
-    public void setCompletedParts(Integer completedParts) {
-        this.completedParts = completedParts;
+    public void setSize(Long size) {
+        this.size = size;
     }
 
     public Integer getCompletedParts() {
         return completedParts;
+    }
+
+    public void setCompletedParts(Integer completedParts) {
+        this.completedParts = completedParts;
     }
 
     public String getFileUrl() {
@@ -240,6 +251,14 @@ public class SysFileRecord {
         this.updateTime = updateTime;
     }
 
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -248,23 +267,11 @@ public class SysFileRecord {
         this.remark = remark;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("fileUrls", getFileUrls())
-                .append("fileName", getFileName())
-                .append("md5", getMd5())
-                .append("uploadId", getUploadId())
-                .append("isUploaded", getIsUploaded())
-                .append("totalChunks", getTotalChunks())
-                .append("size", getSize())
-                .append("completedParts", getCompletedParts())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .toString();
+    public Integer getIsRecycle() {
+        return isRecycle;
+    }
+
+    public void setIsRecycle(Integer isRecycle) {
+        this.isRecycle = isRecycle;
     }
 }

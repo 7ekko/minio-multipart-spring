@@ -2,11 +2,13 @@ package top.mind.miniomultipartspringstarter.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import top.mind.miniomultipartspringstarter.template.MinioTemplate;
 import top.mind.miniomultipartspringstarter.config.RestResponse;
 import top.mind.miniomultipartspringstarter.domain.bo.MultipartInitBO;
 import top.mind.miniomultipartspringstarter.domain.param.MultipartCompleteParam;
 import top.mind.miniomultipartspringstarter.domain.param.MultipartInitParam;
+import top.mind.miniomultipartspringstarter.template.MinioTemplate;
+import top.mind.miniomultipartspringstarter.util.RedisCache;
+
 import javax.annotation.Resource;
 import java.util.Objects;
 
@@ -25,6 +27,9 @@ import java.util.Objects;
 public class MultipartController {
     @Resource
     MinioTemplate minioTemplate;
+    @Resource
+    RedisCache redisCache  ;
+
 
     @PostMapping("/init")
     public RestResponse initMultiPartUpload(@RequestBody MultipartInitParam requestParam) {
@@ -47,4 +52,6 @@ public class MultipartController {
         String fileAddress = minioTemplate.mergeMultipartUpload(param);
         return fileAddress == null ? RestResponse.fail("合并失败请重新上传") : RestResponse.ok(fileAddress);
     }
+
+
 }

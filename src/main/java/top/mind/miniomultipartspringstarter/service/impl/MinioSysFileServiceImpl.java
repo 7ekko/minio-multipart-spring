@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.mind.miniomultipartspringstarter.config.MinioConfig;
-import top.mind.miniomultipartspringstarter.service.ISysFileService;
+import top.mind.miniomultipartspringstarter.service.MinioSysFileService;
 import top.mind.miniomultipartspringstarter.util.FileUploadUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -17,10 +17,13 @@ import java.io.InputStream;
 
 /**
  * Minio 文件存储
+ *
+ * @author konglingdi
  */
 @Slf4j
+// @Primary
 @Service
-public class MinioSysFileServiceImpl implements ISysFileService {
+public class MinioSysFileServiceImpl implements MinioSysFileService {
     @Autowired
     private MinioConfig minioConfig;
 
@@ -45,7 +48,7 @@ public class MinioSysFileServiceImpl implements ISysFileService {
                 .contentType(file.getContentType())
                 .build();
         client.putObject(args);
-         return minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
+        return minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
 //        return fileName;
     }
 
@@ -66,13 +69,27 @@ public class MinioSysFileServiceImpl implements ISysFileService {
     }
 
     @Override
-    public long metedataSingleFile(String fileName) throws Exception {
-        StatObjectResponse statObjectResponse = client.statObject(StatObjectArgs.builder()
-                .bucket(minioConfig.getBucketName())
-                .object(fileName)
-                .build());
-
-        return statObjectResponse.size();
-
+    public StatObjectResponse metedataSingleFile(String fileName) {
+        try {
+            StatObjectResponse statObjectResponse = client.statObject(StatObjectArgs.builder()
+                    .bucket(minioConfig.getBucketName())
+                    .object(fileName)
+                    .build());
+            return statObjectResponse;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+    public void removeObject(String bucketName, String objectName) {
+        try {
+            client.removeObject(RemoveObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(objectName)
+                    .build());
+        } catch (Exception e) {
+            log.error("删除文件失败，{}", e.getMessage());
+        }
+    }
+
 }

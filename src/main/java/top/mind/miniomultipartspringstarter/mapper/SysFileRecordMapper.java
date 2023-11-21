@@ -1,5 +1,6 @@
 package top.mind.miniomultipartspringstarter.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.mind.miniomultipartspringstarter.domain.SysFileRecord;
@@ -8,9 +9,12 @@ import java.util.List;
 
 /**
  * 文件上传记录Mapper接口
+ *
+ * @author
+ * @date 2022-11-15
  */
 @Mapper
-public interface SysFileRecordMapper {
+public interface SysFileRecordMapper extends BaseMapper<SysFileRecord>{
     /**
      * 查询文件上传记录
      *

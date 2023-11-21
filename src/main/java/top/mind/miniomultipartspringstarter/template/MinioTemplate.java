@@ -4,10 +4,21 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import top.mind.miniomultipartspringstarter.config.CustomMinioClient;
+import top.mind.miniomultipartspringstarter.config.MinioConfig;
+import top.mind.miniomultipartspringstarter.domain.SysFileRecord;
+import top.mind.miniomultipartspringstarter.domain.bo.MultipartInitBO;
+import top.mind.miniomultipartspringstarter.domain.param.MultipartCompleteParam;
+import top.mind.miniomultipartspringstarter.domain.param.MultipartInitParam;
+import top.mind.miniomultipartspringstarter.service.ISysFileRecordService;
+import top.mind.miniomultipartspringstarter.util.CacheConstants;
+import top.mind.miniomultipartspringstarter.util.FileUploadUtils;
+import top.mind.miniomultipartspringstarter.util.RedisCache;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.HashMultimap;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.ListPartsResponse;
+import io.minio.RemoveObjectArgs;
 import io.minio.http.Method;
 import io.minio.messages.Part;
 import lombok.extern.slf4j.Slf4j;
@@ -20,16 +31,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import top.mind.miniomultipartspringstarter.config.CustomMinioClient;
-import top.mind.miniomultipartspringstarter.config.MinioConfig;
-import top.mind.miniomultipartspringstarter.domain.SysFileRecord;
-import top.mind.miniomultipartspringstarter.domain.bo.MultipartInitBO;
-import top.mind.miniomultipartspringstarter.domain.param.MultipartCompleteParam;
-import top.mind.miniomultipartspringstarter.domain.param.MultipartInitParam;
-import top.mind.miniomultipartspringstarter.service.ISysFileRecordService;
-import top.mind.miniomultipartspringstarter.util.CacheConstants;
-import top.mind.miniomultipartspringstarter.util.FileUploadUtils;
-import top.mind.miniomultipartspringstarter.util.RedisCache;
 
 import java.io.IOException;
 import java.util.*;
@@ -72,7 +73,7 @@ public class MinioTemplate {
             Date now = new Date();
             Date createTime = fileRecord.getCreateTime();
             long hour = DateUtil.between(createTime, now, DateUnit.HOUR);
-            // TODO 20小时
+            //  20小时
             if (hour < 20) {
                 List<String> partList = new ArrayList<>();
                 for (int i = 1; i <= fileRecord.getTotalChunks(); i++) {
@@ -175,13 +176,9 @@ public class MinioTemplate {
             // chunk已经上传成功
             redisCache.setCacheObject(chunkKey, "1", expire.intValue(), TimeUnit.SECONDS);
         }
-
-        // TODO 不能这样做
-//        String result = redisCache.<String>getCacheObject(chunkKey);
-        // 更新chunk上传结果到记录表中
-//        updateChunkResult(uploadId, chunk, result);
         return msg;
     }
+
 
     public String mergeMultipartUpload(MultipartCompleteParam param) {
         // true 表示合并chunk成功
@@ -284,4 +281,6 @@ public class MinioTemplate {
             }
         }
     }
+
+
 }

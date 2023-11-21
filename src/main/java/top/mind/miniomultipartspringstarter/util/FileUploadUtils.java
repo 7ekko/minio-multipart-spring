@@ -5,10 +5,10 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 import top.mind.miniomultipartspringstarter.domain.FileTypeEnum;
 
-import java.util.Objects;
-
 /**
  * 文件上传工具类
+ *
+ * @author
  */
 public class FileUploadUtils {
 

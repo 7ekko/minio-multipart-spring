@@ -3,13 +3,16 @@ package top.mind.miniomultipartspringstarter.service;
 
 
 import top.mind.miniomultipartspringstarter.domain.SysFileRecord;
+import top.mind.miniomultipartspringstarter.domain.param.RecycleOrRecoveryVM;
 
 import java.util.List;
 
 /**
  * 文件上传记录Service接口
+ *
  */
 public interface ISysFileRecordService {
+
     /**
      * 查询文件上传记录
      *
@@ -75,4 +78,13 @@ public interface ISysFileRecordService {
      * @return
      */
     int updateByUploadId(String uploadId, Integer completedPartCount, int isUploaded);
+
+    List<SysFileRecord> load(); // 加载上传的文件
+
+    SysFileRecord selectSysFileRecordByFileMd5(String md5);
+
+    List<SysFileRecord> recycle();
+
+
+    void recycleOrRecovery(RecycleOrRecoveryVM vm);
 }

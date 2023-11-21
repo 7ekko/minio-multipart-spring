@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.mind.miniomultipartspringstarter.mapper.SysFileRecordMapper">
-    
+
     <resultMap type="top.mind.miniomultipartspringstarter.domain.SysFileRecord" id="SysFileRecordResult">
         <result property="id"    column="id"    />
         <result property="fileUrls"    column="file_urls"    />
@@ -23,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="bucket"    column="bucket"    />
         <result property="chunkResult"    column="chunk_result"    />
         <result property="version"    column="version"    />
+        <result property="isRecycled"    column="is_recycled"    />
     </resultMap>
 
     <sql id="selectSysFileRecordVo">
@@ -31,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectSysFileRecordList" parameterType="top.mind.miniomultipartspringstarter.domain.SysFileRecord" resultMap="SysFileRecordResult">
         <include refid="selectSysFileRecordVo"/>
-        <where>  
+        <where>
             <if test="fileUrls != null  and fileUrls != ''"> and file_urls = #{fileUrls}</if>
             <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
             <if test="md5 != null  and md5 != ''"> and md5 = #{md5}</if>
@@ -46,12 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="version != null "> and version = #{version}</if>
         </where>
     </select>
-    
+
     <select id="selectSysFileRecordById" parameterType="Long" resultMap="SysFileRecordResult">
         <include refid="selectSysFileRecordVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertSysFileRecord" parameterType="top.mind.miniomultipartspringstarter.domain.SysFileRecord">
         insert into sys_file_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -73,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="bucket != null">bucket,</if>
             <if test="chunkResult != null"> chunk_result,</if>
             <if test="version != null ">version</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
             <if test="fileUrls != null">#{fileUrls},</if>
@@ -93,7 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="bucket != null"> #{bucket},</if>
             <if test="chunkResult != null">#{chunkResult},</if>
             <if test="version != null ">#{version},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSysFileRecord" parameterType="top.mind.miniomultipartspringstarter.domain.SysFileRecord">
@@ -125,7 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteSysFileRecordByIds" parameterType="String">
-        delete from sys_file_record where id in 
+        delete from sys_file_record where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
@@ -134,7 +135,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectByMd5" resultMap="SysFileRecordResult">
         <include refid="selectSysFileRecordVo"/>
         where
-            md5 = #{fileMd5}
+        md5 = #{fileMd5}
         limit 1
     </select>
 
@@ -146,6 +147,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             update_time = SYSDATE()
         where
             upload_id = #{uploadId}
-            and is_uploaded = 0
+          and is_uploaded = 0
     </update>
 </mapper>

@@ -238,4 +238,23 @@ public class RedisCache {
     public Collection<String> keys(final String pattern) {
         return redisTemplate.keys(pattern);
     }
+
+    /**
+     * 批量获取缓存的基本对象
+     * @param keys
+     * @return
+     */
+
+    public Map<String, String> getCacheObjects(List<String> strings) {
+        Map<String, String> resultMap = new HashMap<>();
+        for (String key : strings) {
+            String value = (String) redisTemplate.opsForValue().get(key);
+            resultMap.put(key, value);
+        }
+        return resultMap;
+    }
+
+    public List<String> multiGet(List<String> chunkKeys) {
+        return redisTemplate.opsForValue().multiGet(chunkKeys);
+    }
 }
